@@ -1,11 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Container } from "react-bulma-components/full";
 
 class SearchApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterText: '',
+      filterText: "",
       inStockOnly: false
     };
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
@@ -26,8 +27,8 @@ class SearchApp extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>This is a simple Search app</h1>
+      <Container>
+        <h1 className="title">This is a simple Search app</h1>
         <SearchBox
           filterText={this.state.filterText}
           inStockOnly={this.state.inStockOnly}
@@ -39,7 +40,7 @@ class SearchApp extends React.Component {
           filterText={this.state.filterText}
           inStockOnly={this.state.inStockOnly}
         />
-      </div>
+      </Container>
     );
   }
 }
@@ -63,6 +64,7 @@ class SearchBox extends React.Component {
     return (
       <form>
         <input
+          className="input"
           type="text"
           placeholder="Search ..."
           value={this.props.filterText}
@@ -88,11 +90,9 @@ function ProductTable(props) {
   let categories = props.products.map(product => product.category);
   const category = [...new Set(categories)];
 
-  category.forEach((cat) => {
-    rows.push(
-      <ProductCategory key={cat} category={cat} />
-    );
-    props.products.forEach((product) => {
+  category.forEach(cat => {
+    rows.push(<ProductCategory key={cat} category={cat} />);
+    props.products.forEach(product => {
       if (product.name.toUpperCase().indexOf(filterText.toUpperCase()) === -1) {
         return;
       }
@@ -100,9 +100,7 @@ function ProductTable(props) {
         return;
       }
       if (cat === product.category) {
-        rows.push(
-          <ProductItem key={product.name} product={product} />
-        );
+        rows.push(<ProductItem key={product.name} product={product} />);
       }
     });
   });
@@ -130,11 +128,11 @@ function ProductCategory(props) {
 
 function ProductItem(props) {
   const product = props.product;
-  const name = product.stocked ?
-    product.name :
-    <span style={{ color: 'red' }}>
-      {product.name}
-    </span>;
+  const name = product.stocked ? (
+    product.name
+  ) : (
+    <span style={{ color: "red" }}>{product.name}</span>
+  );
   return (
     <tr>
       <td>{name}</td>
@@ -144,15 +142,40 @@ function ProductItem(props) {
 }
 
 const PRODUCTS = [
-  { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
-  { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
-  { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' },
-  { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' },
-  { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' },
-  { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }
+  {
+    category: "Sporting Goods",
+    price: "$49.99",
+    stocked: true,
+    name: "Football"
+  },
+  {
+    category: "Sporting Goods",
+    price: "$9.99",
+    stocked: true,
+    name: "Baseball"
+  },
+  {
+    category: "Sporting Goods",
+    price: "$29.99",
+    stocked: false,
+    name: "Basketball"
+  },
+  {
+    category: "Electronics",
+    price: "$99.99",
+    stocked: true,
+    name: "iPod Touch"
+  },
+  {
+    category: "Electronics",
+    price: "$399.99",
+    stocked: false,
+    name: "iPhone 5"
+  },
+  { category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7" }
 ];
 
 ReactDOM.render(
   <SearchApp products={PRODUCTS} />,
-  document.getElementById('root')
+  document.getElementById("root")
 );
